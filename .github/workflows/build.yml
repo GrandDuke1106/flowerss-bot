@@ -22,5 +22,5 @@ jobs:
     - name: Archive production artifacts
       uses: actions/upload-artifact@v3
       with:
-          name: drone_test
+          name: flowerss-bot
           path: /home/runner/work/flowerss-bot/flowerss-bot

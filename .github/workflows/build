@@ -1,0 +1,29 @@
+name: Build & Deploy
+on: [push, workflow_dispatch]
+jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+
+        - name: Set up Go 1.18
+        uses: actions/setup-go@v4
+        with:
+            go-version: 1.18
+        id: go
+        
+        - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
+        
+        - name: Get dependencies
+        run: |
+          go mod download
+          
+        - name: Build
+        run: |
+          go build -trimpath -ldflags \
+          "-s -w -buildid= \
+          -X 'github.com/indes/flowerss-bot/internal/config.commit=$(COMMIT)' \
+          -X 'github.com/indes/flowerss-bot/internal/config.date=$(DATA)' \
+          -X 'github.com/indes/flowerss-bot/internal/config.version=$(VERSION)'" -o $(app_name)
+
